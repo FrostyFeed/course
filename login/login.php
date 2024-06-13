@@ -1,28 +1,31 @@
 <?php
 session_start();
-require '..\db.php'; // файл для підключення до бази даних
+require '..\db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
-
-    // Перевірка введених даних
+    $rememberMe = isset($_POST['remember_me']);
     if (empty($username) || empty($password)) {
         header('Location: index.php?error=Будь ласка, заповніть всі поля');
         exit();
     }
 
-    // Підключення до бази даних через PDO
     try {
         $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
         $stmt->execute([$username]);
         $user = $stmt->fetch();
-        // Перевірка пароля
+
         if ($user && $password == $user['password']) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
-            header('Location: ..\main\test.php'); // сторінка після успішного входу
+
+            if ($rememberMe) {
+                setcookie('user_id', $user['user_id'], time() + (86400 * 30), "/"); // 30 days
+                setcookie('username', $user['username'], time() + (86400 * 30), "/"); // 30 days
+            }
+            header('Location: ../../main/test.php'); 
             exit();
         } else {
             header('Location: index.php?error=Невірне ім\'я користувача або пароль');

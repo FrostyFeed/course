@@ -19,20 +19,11 @@ switch ($action) {
         $roomController->addRoom($data);
         break;
 
-    case 'delete':
-        $id = $_POST['room_id'];
-        $roomController->deleteRoom($id);
+    case 'findFreeRoom':
+        $room = $roomController->findFreeRoom();
+        echo $room['room_number'];
+        exit();
         break;
-
-    case 'edit':
-        $data = [
-            'room_id' => $_POST['room_id'],
-            'room_number' => $_POST['room_number'],
-            'capacity' => $_POST['capacity']
-        ];
-        $roomController->editRoom($data);
-        break;
-
     default:
         echo 'Невідома дія';
         exit();

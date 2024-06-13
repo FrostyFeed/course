@@ -8,13 +8,15 @@
 </style>
 </head>
 <body>
+    <?php include 'menu.php'; ?>
     <div class="dashboard-container">
         <h1>Вітаємо, <?php  echo htmlspecialchars($_SESSION['username']); ?>!</h1>
-        <a href="logout.php">Вийти</a>
-        <?php include 'search_results.php'; ?>
+        
         <?php include 'residents.php'; ?>
         
         <?php include 'rooms.php'; ?>
         </div>
+        
+        <script src="views/script.js"></script>
 </body>
 </html>

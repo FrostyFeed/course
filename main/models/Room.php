@@ -17,31 +17,48 @@ class Room {
         return $stmt->execute([$data['room_number'], $data['capacity'],$data['capacity']]);
     }
 
-    public function edit($data) {
-        $stmt = $this->pdo->prepare('UPDATE Rooms SET room_number = ?, capacity = ? WHERE room_id = ?');
-        return $stmt->execute([$data['room_number'], $data['capacity'], $data['room_id']]);
-    }
-
-    public function delete($id) {
-        $stmt = $this->pdo->prepare('DELETE FROM Rooms WHERE room_id = ?');
-        return $stmt->execute([$id]);
+    public function findFreeRoom(){
+        $stmt = $this->pdo->prepare('SELECT room_number FROM Rooms WHERE free_seats != 0 LIMIT 1');
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getFreeSeats($data){
         $stmt = $this->pdo->prepare('SELECT free_seats FROM Rooms WHERE room_number = ?');
-        $stmt->execute([$data['room_id']]);
+        $stmt->execute([$data]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function checkFreeSeats($data){
         $freeSeats = $this->getFreeSeats($data);
         return $freeSeats['free_seats'];
     }
-    public function removeFreeSeat($data){
-        $freeSeats = $this->checkFreeSeats($data) - 1;
-        print_r($data['room_id']);
+    public function updateFreeSeats($data){
+        $roomCapacity = $this->getRoomCapacity($data);
+        $peopleInRoom = $this->getAmountOfPeopleInRoom($data);
+        $freeSeats = $roomCapacity - $peopleInRoom;
         $stmt = $this->pdo->prepare('UPDATE Rooms SET free_seats = ? WHERE room_number = ?');
-        return $stmt->execute([$freeSeats, $data['room_id']]);
+        $stmt->execute([$freeSeats, $data]);
+        return $freeSeats;
     }
-    
+    public function getAmountOfPeopleInRoom($data){
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) as amount FROM Residents WHERE room_id = ?');
+        $stmt->execute([$data]);
+        $amount = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $amount['amount'];
+    }
+    public function getRoomCapacity($data){
+        $stmt = $this->pdo->prepare('SELECT capacity FROM Rooms WHERE room_number = ?');
+        $stmt->execute([$data]);
+        $amount = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $amount['capacity'];
+    }
+    public function updateSelectedRooms($ids){
+        $array = explode(',',$ids);
+        $newSeats = [];
+        foreach($array as $id){
+            array_push($newSeats,$this->updateFreeSeats($id));
+        }
+        return $newSeats;
+    }
 }
 ?>

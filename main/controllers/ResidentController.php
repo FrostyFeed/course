@@ -27,5 +27,8 @@ class ResidentController {
     public function deleteResident($id) {
         return $this->model->delete($id);
     }
+    public function deleteSelected($id){
+        return $this->model->deleteSelected($id);
+    }
 }
 ?>

@@ -10,44 +10,78 @@ body {
 
 .login-container {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
     text-align: center;
 }
 
 .login-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
 }
 
 .login-container label {
     display: block;
-    margin: 10px 0 5px;
+    margin: 12px 0 6px;
+    text-align: left;
+    color: #555;
+    font-size: 14px;
 }
 
 .login-container input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .login-container button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #28a745;
     border: none;
+    border-radius: 5px;
     color: white;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .login-container button:hover {
     background-color: #218838;
 }
 
+#remember_me {
+    height: 15px;
+    width: 15px;
+    position: relative;
+    top: 6px;
+}
+
+#rmbrLabel {
+    display: inline;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
 .error {
     color: red;
-    margin-top: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* Improve the checkbox label alignment */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 8px;
 }

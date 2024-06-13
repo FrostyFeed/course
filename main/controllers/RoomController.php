@@ -16,18 +16,17 @@ class RoomController {
         return $this->model->add($data);
     }
 
-    public function editRoom($data) {
-        return $this->model->edit($data);
-    }
-
-    public function deleteRoom($id) {
-        return $this->model->delete($id);
-    }
     public function checkFreeSeats($data){
         return $this->model->checkFreeSeats($data);
     }
-    public function removeFreeSeat($data){
-        return $this->model->removeFreeSeat($data);
+    public function updateFreeSeats($data){
+        return $this->model->updateFreeSeats($data);
+    }
+    public function findFreeRoom(){
+        return $this->model->findFreeRoom();
+    }
+    public function updateAllRooms($ids){
+        return $this->model->updateSelectedRooms($ids);
     }
 }
 ?>
